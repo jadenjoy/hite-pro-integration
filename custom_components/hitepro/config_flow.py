@@ -67,7 +67,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     return {"title": "Name of the device"}
 
 @config_entries.HANDLERS.register(DOMAIN)
-class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+class HiteProConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Hite-Pro Bridge."""
 
     VERSION = 1
