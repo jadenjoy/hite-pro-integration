@@ -17,7 +17,7 @@ from homeassistant.components.climate.const import (
 )
 from homeassistant.const import TEMP_CELSIUS
 
-from .hub import XComfortHub
+from .hub import HiteProHub
 from .const import DOMAIN, VERBOSE
 
 SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE | SUPPORT_PRESET_MODE
@@ -35,7 +35,7 @@ async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
 
-    hub = XComfortHub.get_hub(hass, entry)
+    hub = HiteProHub.get_hub(hass, entry)
 
     rooms = hub.rooms
 
@@ -59,7 +59,7 @@ class HASSXComfortRcTouch(ClimateEntity):
     _attr_hvac_modes = [HVAC_MODE_AUTO]
     _attr_supported_features = SUPPORT_FLAGS
 
-    def __init__(self, hass: HomeAssistant, hub: XComfortHub, room: Room):
+    def __init__(self, hass: HomeAssistant, hub: HiteProHub, room: Room):
         self.hass = hass
         self.hub = hub
         self._room = room

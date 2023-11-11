@@ -1,0 +1,20 @@
+{
+    "config": {
+        "abort": {
+            "no_devices_found": "No Eaton xComfort Bridge devices found on the network."
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "auth_key": "AuthKey",
+                    "host": "Host",
+                    "identifier": "Identifier",
+                    "ip_address": "Ip Address",
+                    "password": "Password",
+                    "username": "Username"
+                }
+            }
+        }
+    },
+    "title": "Eaton xComfort Bridge"
+}

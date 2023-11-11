@@ -6,13 +6,14 @@ import asyncio
 import logging
 from typing import List
 
-from xcomfort.bridge import Bridge, State
+from xcomfort.bridge import State
 from xcomfort.devices import Light, LightState
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
 from .const import DOMAIN, VERBOSE
+from .bridge import Bridge
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -23,15 +24,21 @@ def log(msg: str):
 
 
 """Wrapper class over bridge library to emulate hub."""
-class XComfortHub:
-    def __init__(self, hass: HomeAssistant, identifier: str, ip: str, auth_key: str):
+class HiteProHub:
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        host: str,
+        username: str,
+        password: str,
+    ):
         """Initialize underlying bridge"""
-        bridge = Bridge(ip, auth_key)
+        bridge = Bridge(host, username, password)
         self.bridge = bridge
-        self.identifier = identifier
+        self.identifier = host
         if self.identifier is None:
-            self.identifier = ip
-        self._id = ip
+            self.identifier = host
+        self._id = host
         self.devices = list()
         log("getting event loop")
         self._loop = asyncio.get_event_loop()
@@ -53,13 +60,6 @@ class XComfortHub:
 
         log(f"loaded {len(self.devices)} devices")
 
-        log("loading rooms")
-
-        rooms = await self.bridge.get_rooms()
-        self.rooms = rooms.values()
-
-        log(f"loaded {len(self.rooms)} rooms")
-
     @property
     def hub_id(self) -> str:
         return self._id
@@ -69,5 +69,5 @@ class XComfortHub:
         return True
 
     @staticmethod
-    def get_hub(hass: HomeAssistant, entry: ConfigEntry) -> XComfortHub:
+    def get_hub(hass: HomeAssistant, entry: ConfigEntry) -> HiteProHub:
         return hass.data[DOMAIN][entry.entry_id]

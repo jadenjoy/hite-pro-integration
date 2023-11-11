@@ -15,7 +15,7 @@ from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import DOMAIN, VERBOSE
-from .hub import XComfortHub
+from .hub import HiteProHub
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -35,7 +35,7 @@ async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
 
-    hub = XComfortHub.get_hub(hass, entry)
+    hub = HiteProHub.get_hub(hass, entry)
 
     devices = hub.devices
 
@@ -53,7 +53,7 @@ async def async_setup_entry(
 
 
 class HASSXComfortLight(LightEntity):
-    def __init__(self, hass: HomeAssistant, hub: XComfortHub, device: Light):
+    def __init__(self, hass: HomeAssistant, hub: HiteProHub, device: Light):
         self.hass = hass
         self.hub = hub
 
