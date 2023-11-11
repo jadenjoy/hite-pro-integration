@@ -5,5 +5,6 @@ CONF_AUTH_KEY = "auth_key"
 CONF_IDENTIFIER = "identifier"
 CONF_DIMMING = "dimming"
 CONF_GATEWAYS = "gateways"
+CONF_HOST = "host"
 
 VERBOSE = True

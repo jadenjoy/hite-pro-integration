@@ -1,12 +1,15 @@
 {
   "title": "Eaton xComfort Bridge",
-  "config": {    
+  "config": {
     "step": {
-      "user": {        
+      "user": {
         "data": {
           "ip_address": "Ip Address",
           "auth_key": "AuthKey",
-          "identifier": "Identifier"
+          "identifier": "Identifier",
+          "password": "Password",
+          "username": "Username",
+          "host": "Host"
         }
       }
     },
