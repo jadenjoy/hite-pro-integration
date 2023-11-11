@@ -5,7 +5,7 @@ import httpx
 import asyncio
 import logging
 from typing import List
-from homeassistant.components.hitepro.state import State
+from homeassistant.components.hite_pro.state import State
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant

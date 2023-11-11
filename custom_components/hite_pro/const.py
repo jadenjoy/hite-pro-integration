@@ -1,6 +1,6 @@
 """Constants for the Hite-Pro Bridge integration."""
 
-DOMAIN = "hitepro"
+DOMAIN = "hite_pro"
 CONF_IDENTIFIER = "identifier"
 CONF_HOST = "host"
 CONF_USERNAME = "username"

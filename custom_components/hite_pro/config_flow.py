@@ -1,8 +1,7 @@
 """Config flow for Hite-Pro Bridge integration."""
-from __future__ import annotations
-
 import logging
 from typing import Any
+
 
 import voluptuous as vol
 
@@ -66,7 +65,6 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     # Return info that you want to store in the config entry.
     return {"title": "Name of the device"}
 
-@config_entries.HANDLERS.register(DOMAIN)
 class HiteProConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Hite-Pro Bridge."""
 

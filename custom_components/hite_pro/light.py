@@ -2,7 +2,7 @@ import asyncio
 import logging
 from math import ceil
 
-from homeassistant.components.hitepro.state import State
+from homeassistant.components.hite_pro.state import State
 
 from .hub import Light, HiteProHub
 
