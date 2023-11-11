@@ -89,8 +89,8 @@ class HASSHiteProLight(LightEntity):
         return {
             "identifiers": {(DOMAIN, self.unique_id)},
             "name": self.name,
-            "manufacturer": "Eaton",
-            "model": "XXX",
+            "manufacturer": "Hite-Pro",
+            "model": "Relay Module",
             "sw_version": "Unknown",
             "via_device": self.hub.hub_id,
         }

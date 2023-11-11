@@ -7,11 +7,11 @@
             "user": {
                 "data": {
                     "auth_key": "AuthKey",
-                    "host": "Host",
+                    "host": "Адрес Gateway",
                     "identifier": "Identifier",
                     "ip_address": "Ip Address",
-                    "password": "Password",
-                    "username": "Username"
+                    "password": "Пароль",
+                    "username": "Имя пользователя или email"
                 }
             }
         }

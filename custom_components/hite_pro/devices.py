@@ -48,7 +48,7 @@ class Light(BridgeDevice):
 
 
     def handle_state(self, payload):
-        switch = (payload['type'] == "switch")
+        switch = payload['status']
         dimmvalue = self.interpret_dimmvalue_from_payload(switch, payload)
 
         self.state.on_next(LightState(switch, dimmvalue, payload))
