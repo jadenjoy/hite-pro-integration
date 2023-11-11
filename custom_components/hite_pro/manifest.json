@@ -2,18 +2,19 @@
   "domain": "hite_pro",
   "name": "Hite-Pro Bridge",
   "version": "0.1.0",
-  "codeowners": [
-    "@jadenjoy"
-  ],
   "config_flow": true,
-  "dependencies": [],
-  "documentation": "https://www.home-assistant.io/integrations/hite_pro",
-  "homekit": {},
-  "iot_class": "local_polling",
+  "documentation": "https://github.com/jadenjoy/hite-pro-integration",
+  "issue_tracker": "https://github.com/jadenjoy/hite-pro-integration/issues",
   "requirements": [
+    "xcomfort==0.1.0",
     "rx==3.0.1",
     "pycryptodome==3.15.0"
   ],
   "ssdp": [],
-  "zeroconf": []
+  "zeroconf": [],
+  "homekit": {},
+  "dependencies": [],
+  "codeowners": [
+    "@jadenjoy"
+  ]
 }

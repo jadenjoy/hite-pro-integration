@@ -7,6 +7,7 @@ import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.const import (
+    CONF_IP_ADDRESS,
     CONF_MONITORED_CONDITIONS,
     CONF_PASSWORD,
     CONF_USERNAME,
@@ -15,13 +16,13 @@ from homeassistant.core import callback
 from homeassistant.helpers import aiohttp_client, config_validation as cv
 from homeassistant.helpers.typing import ConfigType
 
-from .const import CONF_IDENTIFIER, DOMAIN, CONF_HOST
+from .const import CONF_AUTH_KEY, CONF_IDENTIFIER, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
 
 @config_entries.HANDLERS.register(DOMAIN)
-class HiteProConfigFlow(config_entries.ConfigFlow):
+class HiteProBridgeConfigFlow(config_entries.ConfigFlow):
 
     VERSION = 1
     CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_PUSH
@@ -39,23 +40,21 @@ class HiteProConfigFlow(config_entries.ConfigFlow):
 
         if user_input is not None:
 
-            self.data[CONF_HOST] = user_input[CONF_HOST]
-            self.data[CONF_USERNAME] = user_input[CONF_USERNAME]
-            self.data[CONF_PASSWORD] = user_input[CONF_PASSWORD]
+            self.data[CONF_IP_ADDRESS] = user_input[CONF_IP_ADDRESS]
+            self.data[CONF_AUTH_KEY] = user_input[CONF_AUTH_KEY]
             self.data[CONF_IDENTIFIER] = user_input.get(CONF_IDENTIFIER)
 
-            await self.async_set_unique_id(self.data[CONF_HOST])
+            await self.async_set_unique_id(self.data[CONF_IP_ADDRESS])
 
             return self.async_create_entry(
-                title=f"{user_input[CONF_HOST]}",
+                title=f"{user_input[CONF_IP_ADDRESS]}",
                 data=user_input,
             )
 
         data_schema = {
-            vol.Required(CONF_HOST): str,
-            vol.Required(CONF_USERNAME): str,
-            vol.Required(CONF_PASSWORD): str,
-            vol.Optional(CONF_IDENTIFIER, default="Hite-Pro Bridge"): str,
+            vol.Required(CONF_IP_ADDRESS): str,
+            vol.Required(CONF_AUTH_KEY): str,
+            vol.Optional(CONF_IDENTIFIER, default="XComfort Bridge"): str,
         }
 
         return self.async_show_form(

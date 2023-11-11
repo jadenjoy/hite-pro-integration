@@ -1,10 +1,9 @@
-"""Constants for the Hite-Pro Bridge integration."""
+"""Constants for the Eaton xComfort Bridge integration."""
 
 DOMAIN = "hite_pro"
 CONF_AUTH_KEY = "auth_key"
 CONF_IDENTIFIER = "identifier"
-CONF_HOST = "host"
-CONF_USERNAME = "username"
-CONF_PASSWORD = "password"
-VERBOSE = True
+CONF_DIMMING = "dimming"
+CONF_GATEWAYS = "gateways"
 
+VERBOSE = True

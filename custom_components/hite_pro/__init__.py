@@ -1,19 +1,17 @@
-"""The Hite-Pro Bridge integration."""
-from __future__ import annotations
+"""Support for XComfort Bridge."""
+import asyncio
+import logging
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import Platform
+from homeassistant.const import CONF_IP_ADDRESS,Platform
 from homeassistant.core import HomeAssistant
-from .hub import HiteProHub
 from homeassistant.helpers.typing import ConfigType
 
+from .const import CONF_AUTH_KEY, CONF_IDENTIFIER, DOMAIN
+from .hub import XComfortHub
 
-import logging
-from .const import DOMAIN, CONF_IDENTIFIER, CONF_HOST, CONF_USERNAME, CONF_PASSWORD
+PLATFORMS = [Platform.LIGHT, Platform.CLIMATE, Platform.SENSOR, Platform.COVER]
 
-# TODO List the platforms that you want to support.
-# For your initial PR, limit it to 1 platform.
-PLATFORMS: list[Platform] = [Platform.LIGHT]
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -25,33 +23,37 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up Hite-Pro Bridge from a config entry."""
-    # TODO 1. Create API instance
-    # TODO 2. Validate the API connection (and authentication)
-    # TODO 3. Store an API object for your platforms to access
-    # hass.data[DOMAIN][entry.entry_id] = MyApi(...)
+    """Connects to bridge and loads devices."""
     config = entry.data
     identifier = str(config.get(CONF_IDENTIFIER))
-    host = str(config.get(CONF_HOST))
-    username = str(config.get(CONF_USERNAME))
-    password = str(config.get(CONF_PASSWORD))
+    ip = str(config.get(CONF_IP_ADDRESS))
+    auth_key = str(config.get(CONF_AUTH_KEY))
 
-    hub = HiteProHub(
-        hass, host=host, username=username, password=password
-    )
-
+    hub = XComfortHub(hass, identifier=identifier, ip=ip, auth_key=auth_key)
+    hub.start()
     hass.data[DOMAIN][entry.entry_id] = hub
 
     await hub.load_devices()
-    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+
+    await hass.config_entries.async_forward_entry_setups (entry, PLATFORMS)
 
     return True
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Unload a config entry."""
+    """Disconnects from bridge and removes devices loaded."""
+    hub = XComfortHub.get_hub(hass, entry)
+    await hub.stop()
 
-    if unload_ok := await hass.config_entries.async_unload_platforms(entry, PLATFORMS):
+    unload_ok = all(
+        await asyncio.gather(
+            *[
+                hass.config_entries.async_forward_entry_unload(entry, platform)
+                for platform in PLATFORMS
+            ]
+        )
+    )
+    if unload_ok:
         hass.data[DOMAIN].pop(entry.entry_id)
 
     return unload_ok
