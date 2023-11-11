@@ -57,7 +57,6 @@ class HiteProHub:
         log("loading devices")
         devs = await self.bridge.get_devices()
         self.devices = devs.values()
-
         log(f"loaded {len(self.devices)} devices")
 
     @property

@@ -33,6 +33,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     password = str(config.get(CONF_PASSWORD))
 
     hub = HiteProHub(hass, host=host, username=username, password=password)
+    hub.start()
     hass.data[DOMAIN][entry.entry_id] = hub
 
     await hub.load_devices()

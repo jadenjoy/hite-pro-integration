@@ -2,7 +2,7 @@ import asyncio
 import logging
 from math import ceil
 
-from xcomfort.devices import Light
+from .devices import Light
 
 from homeassistant.components.light import (
     ATTR_BRIGHTNESS,
@@ -39,20 +39,20 @@ async def async_setup_entry(
 
     devices = hub.devices
 
-    _LOGGER.info(f"Found {len(devices)} xcomfort devices")
+    _LOGGER.info(f"Found {len(devices)} hite-pro devices")
 
     lights = list()
     for device in devices:
         if isinstance(device,Light):
             _LOGGER.info(f"Adding {device}")
-            light = HASSXComfortLight(hass, hub, device)
+            light = HASSHiteProLight(hass, hub, device)
             lights.append(light)
 
     _LOGGER.info(f"Added {len(lights)} lights")
     async_add_entities(lights)
 
 
-class HASSXComfortLight(LightEntity):
+class HASSHiteProLight(LightEntity):
     def __init__(self, hass: HomeAssistant, hub: HiteProHub, device: Light):
         self.hass = hass
         self.hub = hub
