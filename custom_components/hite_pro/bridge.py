@@ -43,6 +43,19 @@ class Bridge:
             raise Exception("Run can only be called once at a time")
         self.state = State.Initializing
         await self._load_devices()
+        await self.run_device_polling()
+
+
+
+    async def device_polling(self):
+        while True:
+            log("device_polling")
+            await self._load_devices()
+            await asyncio.sleep(3)  # Задержка в 3 секунды перед следующим вызовом _load_devices
+
+    async def run_device_polling(self):
+        log("run_device_polling")
+        await self.device_polling()
 
 
     async def wait_for_initialization(self):
@@ -59,8 +72,12 @@ class Bridge:
         return self._devices
 
     async def _load_devices(self):
-        devices_data = await self._request("GET", "/devices")
-        self._handle_devices_data(devices_data)
+        try:
+            devices_data = await self._request("GET", "/devices")
+            self._handle_devices_data(devices_data)
+        except Exception as e:
+            log(f"Error while loading devices: {str(e)}")
+            #raise Exception(f"Error while loading devices: {str(e)}")
 
 
     def _handle_devices_data(self, devices):

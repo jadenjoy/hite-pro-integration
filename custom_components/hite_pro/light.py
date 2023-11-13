@@ -2,7 +2,7 @@ import asyncio
 import logging
 from math import ceil
 
-from .devices import Light
+from .devices import DeviceState, Light
 
 from homeassistant.components.light import (
     ATTR_BRIGHTNESS,
@@ -74,15 +74,16 @@ class HASSHiteProLight(LightEntity):
         else:
             self._device.state.subscribe(lambda state: self._state_change(state))
 
-    def _state_change(self, state):
-        self._state = state
+    def _state_change(self, state: DeviceState):
+        if str(self._state) != str(state):
+            self._state = state
 
-        should_update = self._state is not None
+            should_update = self._state is not None
+            log(f"State changed {self._name} : {state}")
 
-        log(f"State changed {self._name} : {state}")
+            if should_update:
+                self.schedule_update_ha_state()
 
-        if should_update:
-            self.schedule_update_ha_state()
 
     @property
     def device_info(self):
